@@ -9,20 +9,16 @@ public class Main extends JComponent {
     static int delay;
     static JLabel j1;
     static int avg = 0;
-
-    static Test01 testCircle;
-
+    static Circle testCircle;
+    static AppGUI appGUI;
 
     static void populateApp() {
         SwingUtilities.invokeLater(() -> {
 
-            AppGUI appGUI = new AppGUI();
+            appGUI = new AppGUI();
             appGUI.initGUI();
 
-            double w = appGUI.p1.getWidth();
-            double h = appGUI.p1.getHeight();
-
-            testCircle = new Test01(w / 2, h / 3, 50, 0, 0);
+            testCircle = new Circle(100, 800, 50, 10, -16);
             appGUI.p1.add(testCircle);
 
             LineBorder lineBorder = new LineBorder(Color.white);
@@ -41,20 +37,21 @@ public class Main extends JComponent {
 
     static void startLoop() {
 
-        delay = 16;
+        delay = 10;
 
         Thread gameLoop = new Thread(() -> {
 
-            while (count < 1000) {
+            while (true) {
                 if (count % 60 == 0) {
                     avg = 1000 / delay;
                 }
 
                 SwingUtilities.invokeLater(() -> {
                     j1.setText("<html><div style='text-align: center'>Total Frames: " + count + " <br> FPS: " + avg + "</div></html>");
-                    testCircle.move();
-                    testCircle.accelerate(delay);
+                    testCircle.move(appGUI.p1);
                     testCircle.repaint();
+                    testCircle.accelerate(delay);
+                    System.out.println(testCircle.y);
                 });
 
                 count++;
