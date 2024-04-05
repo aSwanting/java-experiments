@@ -40,6 +40,11 @@ public class Circle extends JComponent {
         int h = bounds.getHeight();
         int w = bounds.getWidth();
 
+        if (y < 0) {
+            y = 0;
+            vy *= -0.9;
+        }
+
         if (y > h - r) {
             y = h - r;
             vy *= -0.6;

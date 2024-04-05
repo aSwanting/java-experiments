@@ -3,6 +3,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Scanner;
 
 public class Main extends JComponent {
     static int count = 0;
@@ -13,12 +14,32 @@ public class Main extends JComponent {
     static AppGUI appGUI;
 
     static void populateApp() {
-        SwingUtilities.invokeLater(() -> {
 
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter circle parameters:");
+
+        System.out.print("x position: ");
+        double x = Double.parseDouble(scan.nextLine());
+
+        System.out.print("y position: ");
+        double y = Double.parseDouble(scan.nextLine());
+
+        System.out.print("radius: ");
+        double r = Double.parseDouble(scan.nextLine());
+
+        System.out.print("x velocity: ");
+        double vx = Double.parseDouble(scan.nextLine());
+
+        System.out.print("y velocity: ");
+        double vy = Double.parseDouble(scan.nextLine());
+
+        scan.close();
+
+        SwingUtilities.invokeLater(() -> {
             appGUI = new AppGUI();
             appGUI.initGUI();
-
-            testCircle = new Circle(100, 800, 50, 10, -16);
+            testCircle = new Circle(x, y, r, vx, vy);
+//            testCircle = new Circle(450, 50, 80, 0, 0);
             appGUI.p1.add(testCircle);
 
             LineBorder lineBorder = new LineBorder(Color.white);
@@ -37,6 +58,12 @@ public class Main extends JComponent {
 
     static void startLoop() {
 
+        try {
+            Thread.sleep(3 * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        
         delay = 10;
 
         Thread gameLoop = new Thread(() -> {
