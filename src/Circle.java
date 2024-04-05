@@ -14,6 +14,10 @@ public class Circle extends JComponent {
         this.vy = vy;
     }
 
+    private static double accelFormula(double delay, double multiplier) {
+        return multiplier * (delay / 1000);
+    }
+
     @Override
     public String toString() {
         return "Circle{" +
@@ -37,27 +41,27 @@ public class Circle extends JComponent {
 
     public void move(JComponent bounds) {
 
-        int h = bounds.getHeight();
-        int w = bounds.getWidth();
+        double h = bounds.getHeight() - r;
+        double w = bounds.getWidth() - r;
 
         if (y < 0) {
             y = 0;
-            vy *= -0.9;
+            vy *= -0.98;
         }
 
-        if (y > h - r) {
-            y = h - r;
-            vy *= -0.6;
+        if (y > h) {
+            y = h;
+            vy *= -0.75;
         }
 
         if (x < 0) {
             x = 0;
-            vx *= -0.8;
+            vx *= -0.92;
         }
 
-        if (x > w - r) {
-            x = w - r;
-            vx *= -0.8;
+        if (x > w) {
+            x = w;
+            vx *= -0.92;
         }
 
         x += vx;
@@ -65,7 +69,16 @@ public class Circle extends JComponent {
     }
 
     public void accelerate(double delay) {
-//        vx += 10 * (delay / 1000);
-        vy += 30 * (delay / 1000);
+
+        double xMultiplier = 0.8;
+        double yMultiplier = 48;
+
+        double xFormula = vx < 0 ? accelFormula(delay, xMultiplier)
+                : accelFormula(delay, xMultiplier) * -1;
+        double yFormula = accelFormula(delay, yMultiplier);
+
+        vx += xFormula;
+        vy += yFormula;
+
     }
 }
