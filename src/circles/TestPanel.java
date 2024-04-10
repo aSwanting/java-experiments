@@ -34,23 +34,11 @@ public class TestPanel extends JPanel {
 
     public void run() throws InterruptedException {
         while (true) {
-            c1.x++;
-            c1.y++;
-            c2.x--;
-            c2.y--;
+            c1.move1();
+            c2.move2();
             repaint();
             Thread.sleep(6);
         }
     }
 }
 
-class Circle {
-    double d, r, x, y;
-
-    public Circle(double d, double x, double y) {
-        this.d = d;
-        this.r = d / 2;
-        this.x = x - r;
-        this.y = y - r;
-    }
-}
